@@ -1,0 +1,18 @@
+{
+  "name": "mini-plataforma-cursos-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mini plataforma de cursos - Backend monorepo",
+  "scripts": {
+    "lint": "pnpm -r run lint",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
