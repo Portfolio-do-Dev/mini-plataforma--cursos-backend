@@ -5,38 +5,28 @@ import { Request, Response } from 'express';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class CoursesProxyProvider {
-  private courseServiceUrl: string;
+export class CoursesProxyService {
+  private coursesServiceUrl: string;
 
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.courseServiceUrl = this.configService.get('COURSE_SERVICE_URL');
+    this.coursesServiceUrl = this.configService.get('COURSES_SERVICE_URL');
   }
 
-  async proxyToCourseService(req: Request, res: Response) {
-    try {
-      const { body, headers, originalUrl, method } = req;
-      const targetUrl = `${this.courseServiceUrl}${originalUrl}`;
-      const response = await firstValueFrom(
-        this.httpService.request({
-          url: targetUrl,
-          method,
-          data: body,
-          headers: {
-            Authorization: headers.authorization,
-            'Content-Type': headers['content-type'],
-          },
-        }),
-      );
+  async proxy(req: Request, res: Response) {
+    const { body, headers, originalUrl, method } = req;
+    const url = `${this.coursesServiceUrl}${originalUrl}`;
+    const response = await firstValueFrom(
+      this.httpService.request({
+        url,
+        method,
+        data: body,
+        headers,
+      }),
+    );
 
-      return res.status(response.status).json(response.data);
-    } catch (error) {
-      console.log(error);
-      return res.status(error.response?.status || 500).json({
-        message: error.message,
-      });
-    }
+    return res.status(response.status).json(response.data);
   }
 }
