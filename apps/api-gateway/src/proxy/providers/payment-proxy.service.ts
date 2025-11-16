@@ -5,19 +5,19 @@ import { Request, Response } from 'express';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class CoursesProxyService {
-  private coursesServiceUrl: string;
+export class PaymentProxyService {
+  private paymentServiceUrl: string;
 
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.coursesServiceUrl = this.configService.get('COURSES_SERVICE_URL');
+    this.paymentServiceUrl = this.configService.get('PAYMENT_SERVICE_URL');
   }
 
   async proxy(req: Request, res: Response) {
     const { body, headers, originalUrl, method } = req;
-    const url = `${this.coursesServiceUrl}${originalUrl}`;
+    const url = `${this.paymentServiceUrl}${originalUrl}`;
     const response = await firstValueFrom(
       this.httpService.request({
         url,
