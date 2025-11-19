@@ -1,0 +1,8 @@
+node_modules
+.pnpm-store
+apps/**/node_modules
+apps/**/.next
+dist
+.git
+Dockerfile
+.dockerignore
